@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,11 +28,7 @@ jobs:
         run: |
           docker build -t $DOCKER_HUB_USERNAME/ms-fazri-betest:latest .
           docker push $DOCKER_HUB_USERNAME/ms-fazri-betest:latest
-
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
+          
       - name: Deploy to VM
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -43,3 +39,4 @@ jobs:
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq sshpass
           script -qc "sshpass -p $HOST_SSH_PASSWORD ssh -p $HOST_SSH_PORT $HOST_SSH_USERNAME@$HOST_IP 'cd /home/ursklap/projects/; make deploy-dev'"
+      
