@@ -29,23 +29,16 @@ jobs:
           docker build -t $DOCKER_HUB_USERNAME/ms-fazri-betest:latest .
           docker push $DOCKER_HUB_USERNAME/ms-fazri-betest:latest
 
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Deploy to VM
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           HOST_SSH_USERNAME: ${{ secrets.HOST_SSH_USERNAME }}
           HOST_SSH_PASSWORD: ${{ secrets.HOST_SSH_PASSWORD }}
           HOST_SSH_PORT: ${{ secrets.HOST_SSH_PORT }}
           HOST_IP: ${{ secrets.HOST_IP }}
         run: |
-          echo "$SSH_PRIVATE_KEY" | tr -d '\r' > key.pem
-          chmod 600 key.pem
-          file key.pem
-          cat key.pem
-          ssh -t -o StrictHostKeyChecking=no -i key.pem -p $HOST_SSH_PORT $HOST_SSH_USERNAME@$HOST_IP << EOF
+          sudo apt-get update -qq
+          sudo apt-get install -y sshpass
+          sshpass -p $HOST_SSH_PASSWORD ssh -o StrictHostKeyChecking=no -p $HOST_SSH_PORT $HOST_SSH_USERNAME@$HOST_IP << EOF
             docker pull fazriridwan/ms-fazri-betest:latest
             docker stop ms-fazri-betest || true
             docker rm ms-fazri-betest || true
