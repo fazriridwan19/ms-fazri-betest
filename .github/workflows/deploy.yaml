@@ -37,7 +37,7 @@ jobs:
           HOST_SSH_PORT: ${{ secrets.HOST_SSH_PORT }}
           HOST_IP: ${{ secrets.HOST_IP }}
         run: |
-          echo "$SSH_PRIVATE_KEY" > key.pem
+          echo $SSH_PRIVATE_KEY > key.pem
           chmod 600 key.pem
           ssh -o StrictHostKeyChecking=no -i key.pem -p $HOST_SSH_PORT $HOST_SSH_USERNAME@$HOST_IP << EOF
             docker pull fazriridwan/ms-fazri-betest:latest
