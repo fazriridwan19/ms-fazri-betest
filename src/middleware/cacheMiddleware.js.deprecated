@@ -1,0 +1,22 @@
+import { redisClient } from "../app/redisClient.js";
+import { ApiResponse } from "../dto/response.js";
+
+export const cacheMiddleware = async (req, res, next) => {
+  let key;
+  if (req.params.identityNumber) {
+    key = req.params.identityNumber;
+  } else if (req.params.accountNumber) {
+    key = req.params.accountNumber;
+  } else {
+    key = "data";
+  }
+  const data = await redisClient.get(key);
+  if (data) {
+    const result = JSON.parse(data);
+    res
+      .status(200)
+      .json(new ApiResponse(200, "Successfully retrieve users", result));
+  } else {
+    next();
+  }
+};
