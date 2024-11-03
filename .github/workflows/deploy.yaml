@@ -29,6 +29,10 @@ jobs:
           docker build -t $DOCKER_HUB_USERNAME/ms-fazri-betest:latest .
           docker push $DOCKER_HUB_USERNAME/ms-fazri-betest:latest
 
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Deploy to VM
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
