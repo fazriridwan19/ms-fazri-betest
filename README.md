@@ -1,6 +1,6 @@
 # Application Overview
 
-This application is built using **Node.js** and **Express.js**, providing a robust and scalable backend for web applications. Documentation related to the use of fire can be accessed [here](./docs/user.md)
+This application is built using **Node.js** and **Express.js**, providing a robust and scalable backend for web applications. Documentation related to the use of API can be accessed [here](./docs/user.md)
 
 ```sql
         +---------------------+
