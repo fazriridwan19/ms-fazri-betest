@@ -36,10 +36,10 @@ jobs:
       - name: Deploy to VM
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          HOST_SSH_PASSWORD: ${{ secrets.HOST_SSH_USERNAME }}
+          HOST_SSH_USERNAME: ${{ secrets.HOST_SSH_USERNAME }}
           HOST_SSH_PASSWORD: ${{ secrets.HOST_SSH_PASSWORD }}
           HOST_SSH_PORT: ${{ secrets.HOST_SSH_PORT }}
           HOST_IP: ${{ secrets.HOST_IP }}
         run: |
           apt-get update -qq && apt-get install -y -qq sshpass
-          script -qc "sshpass -p $HOST_SSH_PASSWORD ssh -p $HOST_SSH_PORT $HOST_SSH_PASSWORD@$HOST_IP 'cd /home/ursklap/projects/; make deploy-dev'"
+          script -qc "sshpass -p $HOST_SSH_PASSWORD ssh -p $HOST_SSH_PORT $HOST_SSH_USERNAME@$HOST_IP 'cd /home/ursklap/projects/; make deploy-dev'"
